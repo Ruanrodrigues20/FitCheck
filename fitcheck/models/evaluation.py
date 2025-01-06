@@ -39,33 +39,35 @@ class Evaluation:
         """
         
         
-        self.dc_bicipital = dc_bicipital
-        self.dc_tricipital = dc_tricipital
-        self.dc_subescapular = dc_subescapular
-        self.dc_suprailiaca = dc_suprailiaca
-        self.dc_abdominal = dc_abdominal
-        self.dc_peitoral = dc_peitoral
-        self.dc_axilar = dc_axilar
-        self.dc_coxa = dc_coxa
-        self.dc_panturillha = dc_panturillha
-        self.do_umero = do_umero
-        self.do_femur = do_femur
-        self.do_biestiloide = do_biestiloide
-        self.ombros = ombros
-        self.torax = torax
-        self.cintura = cintura
-        self.abdomen = abdomen
-        self.quadril = quadril
-        self.braco_direito = braco_direito
-        self.braco_esquerdo = braco_esquerdo
-        self.antebraco_direito = antebraco_direito
-        self.antebraco_esquerdo = antebraco_esquerdo
-        self.coxa_dir_proximal = coxa_dir_proximal
-        self.coxa_esq_proximal = coxa_esq_proximal
-        self.coxa_dir_medial = coxa_dir_medial
-        self.coxa_esq_medial = coxa_esq_medial
-        self.panturilha_direita = panturilha_direita
-        self.panturilha_esquerda = panturilha_esquerda
+        self._dc_bicipital = dc_bicipital
+        self._dc_tricipital = dc_tricipital
+        self._dc_subescapular = dc_subescapular
+        self._dc_suprailiaca = dc_suprailiaca
+        self._dc_abdominal = dc_abdominal
+        self._dc_peitoral = dc_peitoral
+        self._dc_axilar = dc_axilar
+        self._dc_coxa = dc_coxa
+        self._dc_panturillha = dc_panturillha
+        self._do_umero = do_umero
+        self._do_femur = do_femur
+        self._do_biestiloide = do_biestiloide
+        self._ombros = ombros
+        self._torax = torax
+        self._cintura = cintura
+        self._abdomen = abdomen
+        self._quadril = quadril
+        self._braco_direito = braco_direito
+        self._braco_esquerdo = braco_esquerdo
+        self._antebraco_direito = antebraco_direito
+        self._antebraco_esquerdo = antebraco_esquerdo
+        self._coxa_dir_proximal = coxa_dir_proximal
+        self._coxa_esq_proximal = coxa_esq_proximal
+        self._coxa_dir_medial = coxa_dir_medial
+        self._coxa_esq_medial = coxa_esq_medial
+        self._panturilha_direita = panturilha_direita
+        self._panturilha_esquerda = panturilha_esquerda
+
+
 
 
     @property
@@ -286,71 +288,34 @@ class Evaluation:
 
 
     def to_dict(self):
-        return {
-            "dc_bicipital": self.dc_bicipital,
-            "dc_tricipital": self.dc_tricipital,
-            "dc_subescapular": self.dc_subescapular,
-            "dc_suprailiaca": self.dc_suprailiaca,
-            "dc_abdominal": self.dc_abdominal,
-            "dc_peitoral": self.dc_peitoral,
-            "dc_axilar": self.dc_axilar,
-            "dc_coxa": self.dc_coxa,
-            "dc_panturillha": self.dc_panturillha,
-            "do_umero": self.do_umero,
-            "do_femur": self.do_femur,
-            "do_biestiloide": self.do_biestiloide,
-            "ombros": self.ombros,
-            "torax": self.torax,
-            "cintura": self.cintura,
-            "abdomen": self.abdomen,
-            "quadril": self.quadril,
-            "braco_direito": self.braco_direito,
-            "braco_esquerdo": self.braco_esquerdo,
-            "antebraco_direito": self.antebraco_direito,
-            "antebraco_esquerdo": self.antebraco_esquerdo,
-            "coxa_dir_proximal": self.coxa_dir_proximal,
-            "coxa_esq_proximal": self.coxa_esq_proximal,
-            "coxa_dir_medial": self.coxa_dir_medial,
-            "coxa_esq_medial": self.coxa_esq_medial,
-            "panturilha_direita": self.panturilha_direita,
-            "panturilha_esquerda": self.panturilha_esquerda
-        }
-
-    
+         return {
+        "dc_bicipital": self._dc_bicipital,
+        "dc_tricipital": self._dc_tricipital,
+        "dc_subescapular": self._dc_subescapular,
+        "dc_suprailiaca": self._dc_suprailiaca,
+        "dc_abdominal": self._dc_abdominal,
+        "dc_peitoral": self._dc_peitoral,
+        "dc_axilar": self._dc_axilar,
+        "dc_coxa": self._dc_coxa,
+        "dc_panturillha": self._dc_panturillha,
+        "do_umero": self._do_umero,
+        "do_femur": self._do_femur,
+        "do_biestiloide": self._do_biestiloide,
+        "ombros": self._ombros,
+        "torax": self._torax,
+        "cintura": self._cintura,
+        "abdomen": self._abdomen,
+        "quadril": self._quadril,
+        "braco_direito": self._braco_direito,
+        "braco_esquerdo": self._braco_esquerdo,
+        "antebraco_direito": self._antebraco_direito,
+        "antebraco_esquerdo": self._antebraco_esquerdo,
+        "coxa_dir_proximal": self._coxa_dir_proximal,
+        "coxa_esq_proximal": self._coxa_esq_proximal,
+        "coxa_dir_medial": self._coxa_dir_medial,
+        "coxa_esq_medial": self._coxa_esq_medial,
+        "panturilha_direita": self._panturilha_direita,
+        "panturilha_esquerda": self._panturilha_esquerda
+    }
 
 
-'''measurements = {
-    "dc_bicipital": 12.3,
-    "dc_tricipital": 14.2,
-    "dc_subescapular": 15.4,
-    "dc_suprailiaca": 13.8,
-    "dc_abdominal": 16.5,
-    "dc_peitoral": 10.5,
-    "dc_axilar": 9.7,
-    "dc_coxa": 14.0,
-    "dc_panturillha": 11.2,
-    "do_umero": 25.6,
-    "do_femur": 30.3,
-    "do_biestiloide": 26.8,
-    "ombros": 45.0,
-    "torax": 95.5,
-    "cintura": 80.3,
-    "abdomen": 85.0,
-    "quadril": 100.2,
-    "braco_direito": 32.0,
-    "braco_esquerdo": 31.5,
-    "antebraco_direito": 26.0,
-    "antebraco_esquerdo": 25.5,
-    "coxa_dir_proximal": 55.0,
-    "coxa_esq_proximal": 54.8,
-    "coxa_dir_medial": 53.0,
-    "coxa_esq_medial": 52.5,
-    "panturilha_direita": 37.0,
-    "panturilha_esquerda": 36.5
-}
-
-evaluation = Evaluation(**measurements)
-
-print(evaluation.to_dict())
-
-'''

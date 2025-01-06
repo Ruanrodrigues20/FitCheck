@@ -50,13 +50,13 @@ class Person:
     
         
     def add_evaluation(self, evaluation):
-        self.evalutions.append(evaluation)
+        self._evaluations.append(evaluation)
 
 
     def to_dict(self):
         return {
             "name": self.name,
-            "age": self.age,
+            "birth_year": self._birth_year,
             "gender": self.gender,
             "height": self._height, 
             "weight": self._weight,
@@ -64,5 +64,3 @@ class Person:
         }
     
     
-    
-

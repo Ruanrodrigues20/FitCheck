@@ -1,23 +1,34 @@
 from fitcheck.models.person import Person
-from fitcheck.utils.csv_manager import CsvManager
+from fitcheck.utils.json_manager import JsonManager
+from fitcheck.models.evaluation import Evaluation
 
 
 class PersonRepository:
     def __init__(self):
-        self._csv_manager = CsvManager()
-        self._next_id = self._csv_manager.get_total_ids
-        self._persons = dict()
-        dic = dict(self._csv_manager.get_person)
-
-        for key in dic.keys:
-            self._persons[key] = dic[key]
+        self._json_manager = JsonManager()
+        self._next_id = self._json_manager.get_total_ids()
+        self._persons = {}
+        self._update_person()
+        
+        
+    def _update_person(self):
+        dic = self._json_manager.usuarios
+        for p in dic.values():
+            person =  Person(p['name'], p['birth_year'], p['height'], p['gender'], p['weight'])
+            d =  p['evalutions']      
+            for evoluation in d:
+                person.add_evaluation(Evaluation(**evoluation))
+            self._persons[p['id']] = person
         
 
 
     def add_person(self, person):
+        person = person
+        person_dic = person.to_dict()
         self._next_id += 1
         self._persons[self._next_id] = person
-        self._csv_manager.add_person(self._next_id, person)
+        person_dic["id"] = self._next_id
+        self._json_manager.save_users_to_json(self._next_id, person_dic)
         return self._next_id
      
 
@@ -26,9 +37,11 @@ class PersonRepository:
 
 
     def remove_person(self, id):
-        self._persons.pop(id)
-        self._csv_manager.remove_person(id)
+        if id in self._persons:
+            self._persons.pop(id)
+            self._json_manager.remove_person(id)
 
     
     def get_person(self, id):
         return self._persons[id]
+    

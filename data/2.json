@@ -1,0 +1,39 @@
+{
+    "id": 2,
+    "name": "Maria",
+    "birth_year": 2001,
+    "gender": "m",
+    "height": 1.61,
+    "weight": 84,
+    "evalutions": [
+        {
+            "dc_bicipital": 12.4,
+            "dc_tricipital": 12.5,
+            "dc_subescapular": 14.1,
+            "dc_suprailiaca": 14.9,
+            "dc_abdominal": 15.6,
+            "dc_peitoral": 10.8,
+            "dc_axilar": 11.0,
+            "dc_coxa": 13.0,
+            "dc_panturillha": 14.3,
+            "do_umero": 26.4,
+            "do_femur": 27.9,
+            "do_biestiloide": 28.1,
+            "ombros": 49.2,
+            "torax": 91.6,
+            "cintura": 84.7,
+            "abdomen": 81.6,
+            "quadril": 108.0,
+            "braco_direito": 34.5,
+            "braco_esquerdo": 31.7,
+            "antebraco_direito": 27.5,
+            "antebraco_esquerdo": 26.3,
+            "coxa_dir_proximal": 57.4,
+            "coxa_esq_proximal": 59.4,
+            "coxa_dir_medial": 52.6,
+            "coxa_esq_medial": 56.9,
+            "panturilha_direita": 35.0,
+            "panturilha_esquerda": 37.5
+        }
+    ]
+}
