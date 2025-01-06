@@ -15,7 +15,7 @@ class PersonController:
     
 
     def list_people(self):
-        return self._repository.get_all()
+        return self._repository.list_all_person()
     
 
     def remove_person(self, id):

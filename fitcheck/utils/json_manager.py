@@ -4,7 +4,7 @@ import json
 
 class JsonManager:
     def __init__(self):
-        self._usuarios = dict()
+        self._users = dict()
         self._load_users()
 
 
@@ -16,7 +16,7 @@ class JsonManager:
                 caminho_arquivo = os.path.join(diretorio, arquivo)
                 with open(caminho_arquivo, 'r') as file:
                     dados = json.load(file)
-                    self._usuarios[dados['id']] = dados
+                    self._users[dados['id']] = dados
 
 
     
@@ -34,8 +34,8 @@ class JsonManager:
         
 
     def remove_person(self, id):
-        if id in self._usuarios:
-            del self._usuarios[id]
+        if id in self._users:
+            del self._users[id]
             
             diretorio = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../data')
             caminho_arquivo = os.path.join(diretorio, f"{id}.json")
@@ -45,11 +45,11 @@ class JsonManager:
 
 
     def get_total_ids(self):
-        return len(self._usuarios)
+        return len(self._users)
 
-    def get_person(self, id):
-        return self._usuarios[id]
+    def get_user(self, id):
+        return self._users[id]
     
     @property
-    def usuarios(self):
-        return self._usuarios
+    def users(self):
+        return self._users

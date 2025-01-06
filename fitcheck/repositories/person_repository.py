@@ -12,7 +12,7 @@ class PersonRepository:
         
         
     def _load_person(self):
-        dic = self._json_manager.usuarios
+        dic = self._json_manager.users
         for p in dic.values():
             person =  Person(p['name'], p['birth_year'], p['height'], p['gender'], p['weight'])
             d =  p['evalutions']      
@@ -32,7 +32,7 @@ class PersonRepository:
         return self._next_id
      
 
-    def get_all(self):
+    def list_all_person(self):
         return self._persons.values()
 
 
