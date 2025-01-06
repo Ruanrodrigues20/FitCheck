@@ -8,10 +8,10 @@ class PersonRepository:
         self._json_manager = JsonManager()
         self._next_id = self._json_manager.get_total_ids()
         self._persons = {}
-        self._update_person()
+        self._load_person()
         
         
-    def _update_person(self):
+    def _load_person(self):
         dic = self._json_manager.usuarios
         for p in dic.values():
             person =  Person(p['name'], p['birth_year'], p['height'], p['gender'], p['weight'])
