@@ -19,12 +19,6 @@ class JsonManager:
                     self._usuarios[dados['id']] = dados
 
 
-    def get_person(self, id):
-        return self._usuarios[id]
-    
-    @property
-    def usuarios(self):
-        return self._usuarios
     
 
     def save_users_to_json(self, id, user):
@@ -52,3 +46,10 @@ class JsonManager:
 
     def get_total_ids(self):
         return len(self._usuarios)
+
+    def get_person(self, id):
+        return self._usuarios[id]
+    
+    @property
+    def usuarios(self):
+        return self._usuarios
