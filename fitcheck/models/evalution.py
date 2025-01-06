@@ -284,5 +284,3 @@ class Evalution:
     def panturilha_esquerda(self, value):
         self._panturilha_esquerda = value
 
-    
-        
