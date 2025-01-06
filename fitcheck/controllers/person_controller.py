@@ -31,4 +31,6 @@ class PersonController:
     def get_dict_person(self, id):
         person = Person(self._repository.get_person(id))
         return person.to_dict
+    
+
 
