@@ -4,9 +4,9 @@
     "birth_year": 2005,
     "gender": "f",
     "height": 1.71,
-    "weight": 77,
     "evaluations": [
         {
+            "weight": 77,
             "dc_bicipital": 12,
             "dc_tricipital": 12.5,
             "dc_subescapular": 14.1,

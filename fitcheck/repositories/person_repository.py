@@ -14,7 +14,7 @@ class PersonRepository:
     def _load_person(self):
         dic = self._json_manager._users
         for p in dic.values():
-            person =  Person(p['name'], p['birth_year'], p['height'], p['gender'], p['weight'])
+            person =  Person(p['name'], p['birth_year'], p['height'], p['gender'])
             d =  p['evaluations']      
             for evoluation in d:
                 person.add_evaluation(Evaluation(**evoluation))

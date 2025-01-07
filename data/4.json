@@ -1,23 +1,23 @@
 {
-    "name": "Ruan",
-    "birth_year": 2005,
+    "name": "Luan",
+    "birth_year": 2004,
     "gender": "m",
-    "height": 1.66,
+    "height": 1.78,
     "evaluations": [
         {
-            "weight": 80,
-            "dc_bicipital": 12,
-            "dc_tricipital": 12.5,
-            "dc_subescapular": 14.1,
-            "dc_suprailiaca": 14.9,
-            "dc_abdominal": 15.6,
-            "dc_peitoral": 10.8,
-            "dc_axilar": 11.0,
-            "dc_coxa": 13.0,
-            "dc_panturillha": 14.3,
-            "do_umero": 26.4,
-            "do_femur": 27.9,
-            "do_biestiloide": 28.1,
+            "weight": 88.5,
+            "dc_bicipital": 6,
+            "dc_tricipital": 12,
+            "dc_subescapular": 10,
+            "dc_suprailiaca": 11.5,
+            "dc_abdominal": 17,
+            "dc_peitoral": 6,
+            "dc_axilar": 8,
+            "dc_coxa": 16,
+            "dc_panturillha": 6,
+            "do_umero": 7,
+            "do_femur": 10.8,
+            "do_biestiloide": 5.6,
             "ombros": 49.2,
             "torax": 91.6,
             "cintura": 84.7,
@@ -36,5 +36,5 @@
         }
 
     ],
-    "id": 3
+    "id": 4
 }

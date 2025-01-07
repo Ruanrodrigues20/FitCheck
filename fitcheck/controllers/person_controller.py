@@ -7,8 +7,8 @@ class PersonController:
         self._repository = PersonRepository()
 
 
-    def add_person(self, name, birth_year, height, gender, weight):
-        person = Person(name, birth_year, height, gender, weight)
+    def add_person(self, name, birth_year, height, gender):
+        person = Person(name, birth_year, height, gender)
 
         id = self._repository.add_person(person) 
         return id

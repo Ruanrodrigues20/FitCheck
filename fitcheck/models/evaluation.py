@@ -1,6 +1,6 @@
 class Evaluation:
     
-    def __init__(self, dc_bicipital, dc_tricipital, dc_subescapular, dc_suprailiaca, dc_abdominal, dc_peitoral, dc_axilar, dc_coxa, dc_panturillha, do_umero, do_femur, do_biestiloide, 
+    def __init__(self, weight, dc_bicipital, dc_tricipital, dc_subescapular, dc_suprailiaca, dc_abdominal, dc_peitoral, dc_axilar, dc_coxa, dc_panturillha, do_umero, do_femur, do_biestiloide, 
                  ombros, torax, cintura, abdomen, quadril, braco_direito, braco_esquerdo, antebraco_direito, antebraco_esquerdo, coxa_dir_proximal, coxa_esq_proximal, coxa_dir_medial, 
                  coxa_esq_medial, panturilha_direita, panturilha_esquerda):
         
@@ -38,7 +38,7 @@ class Evaluation:
             panturilha_esquerda (float): Measurement of the left calf.
         """
         
-        
+        self._peso = weight
         self._dc_bicipital = dc_bicipital
         self._dc_tricipital = dc_tricipital
         self._dc_subescapular = dc_subescapular
@@ -289,6 +289,7 @@ class Evaluation:
 
     def to_dict(self):
          return {
+        "peso": self._peso,
         "dc_bicipital": self._dc_bicipital,
         "dc_tricipital": self._dc_tricipital,
         "dc_subescapular": self._dc_subescapular,
