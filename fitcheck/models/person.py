@@ -17,6 +17,7 @@ class Person:
             weight (float): Person's weight in kg.
         """
         
+        self._id = id
         self._name = name
         self._birth_year = birth_year
         self._height = height

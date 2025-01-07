@@ -1,13 +1,13 @@
 {
     "id": 2,
-    "name": "Maria",
-    "birth_year": 2001,
-    "gender": "m",
-    "height": 1.61,
-    "weight": 84,
+    "name": "Juliana",
+    "birth_year": 2005,
+    "gender": "f",
+    "height": 1.71,
+    "weight": 77,
     "evalutions": [
         {
-            "dc_bicipital": 12.4,
+            "dc_bicipital": 12,
             "dc_tricipital": 12.5,
             "dc_subescapular": 14.1,
             "dc_suprailiaca": 14.9,

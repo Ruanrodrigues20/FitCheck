@@ -23,7 +23,7 @@ class PersonController:
 
 
     def add_evaluation_in_person(self, id, **measurable):
-        person = Person(self._repository.get_person(id))
+        person = self._repository._persons[id]
         evaluation = Evaluation(**measurable)
         person.add_evaluation(evaluation)
 
@@ -32,5 +32,3 @@ class PersonController:
         person = Person(self._repository.get_person(id))
         return person.to_dict
     
-
-

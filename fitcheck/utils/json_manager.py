@@ -47,7 +47,7 @@ class JsonManager:
     def get_total_ids(self):
         return len(self._users)
 
-    def get_user(self, id):
+    def get_person(self, id):
         return self._users[id]
     
     @property
