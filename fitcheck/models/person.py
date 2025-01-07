@@ -61,7 +61,7 @@ class Person:
             "gender": self.gender,
             "height": self._height, 
             "weight": self._weight,
-            "evalutions": [evaluation.to_dict() for evaluation in self._evaluations],
+            "evaluations": [evaluation.to_dict() for evaluation in self._evaluations],
         }
     
     

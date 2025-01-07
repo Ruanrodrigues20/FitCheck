@@ -53,3 +53,33 @@ class JsonManager:
     @property
     def users(self):
         return self._users
+    
+    def update_user_json(self, id, evaluation):
+        """
+        Adiciona uma nova avalia��o � lista de evalutions de um usu�rio espec�fico e salva no JSON.
+        
+        :param id: ID do usu�rio a ser atualizado.
+        :param evaluation: Dicion�rio com os dados da nova avalia��o.
+        """
+        if id in self._users:
+            # Obt�m o usu�rio
+            user_data = self._users[id]
+            
+            # Verifica se 'evalutions' existe no dicion�rio e � uma lista
+            if "evaluations" in user_data and isinstance(user_data["evaluations"], list):
+                user_data["evaluations"].append(evaluation)  # Adiciona a nova avalia��o
+            else:
+                user_data["evaluations"] = [evaluation]  # Cria a lista com a avalia��o
+            
+            # Atualiza o arquivo JSON correspondente
+            diretorio = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../data')
+            caminho_arquivo = os.path.join(diretorio, f"{id}.json")
+            
+            if os.path.exists(caminho_arquivo):
+                with open(caminho_arquivo, 'w') as file:
+                    json.dump(user_data, file, indent=4)
+            else:
+                raise FileNotFoundError(f"Arquivo JSON para o ID {id} n�o encontrado.")
+        else:
+            raise KeyError(f"Usu�rio com ID {id} n�o encontrado.")
+

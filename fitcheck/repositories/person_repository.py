@@ -15,7 +15,7 @@ class PersonRepository:
         dic = self._json_manager._users
         for p in dic.values():
             person =  Person(p['name'], p['birth_year'], p['height'], p['gender'], p['weight'])
-            d =  p['evalutions']      
+            d =  p['evaluations']      
             for evoluation in d:
                 person.add_evaluation(Evaluation(**evoluation))
             self._persons[p['id']] = person
@@ -45,4 +45,7 @@ class PersonRepository:
     def get_person(self, id):
         return self._persons[id]
     
-p = PersonRepository()
+
+    def update_person(self, id, dic):
+        self._persons[id].add_evaluation(Evaluation(**dic))
+        self._json_manager.update_user_json(id, dic)
