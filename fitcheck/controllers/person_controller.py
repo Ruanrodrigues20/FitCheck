@@ -22,8 +22,9 @@ class PersonController:
         self._repository.remove_person(id)
 
 
-    def add_evaluation_in_person(self, id, **measurable):        
-        self._repository.update_person(id, measurable)
+    def add_evaluation_in_person(self, id, **measurable):
+        e = Evaluation(**measurable)        
+        self._repository.update_person(id, e)
 
 
     def get_dict_person(self, id):
@@ -34,3 +35,5 @@ class PersonController:
     def get_person(self, id):
         return self._repository.get_person(id)
     
+
+

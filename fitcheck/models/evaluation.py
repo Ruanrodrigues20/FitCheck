@@ -1,8 +1,10 @@
+from datetime import datetime
+
 class Evaluation:
     
     def __init__(self, weight, dc_bicipital, dc_tricipital, dc_subescapular, dc_suprailiaca, dc_abdominal, dc_peitoral, dc_axilar, dc_coxa, dc_panturillha, do_umero, do_femur, do_biestiloide, 
                  ombros, torax, cintura, abdomen, quadril, braco_direito, braco_esquerdo, antebraco_direito, antebraco_esquerdo, coxa_dir_proximal, coxa_esq_proximal, coxa_dir_medial, 
-                 coxa_esq_medial, panturilha_direita, panturilha_esquerda):
+                 coxa_esq_medial, panturilha_direita, panturilha_esquerda, data=None):
         
         """
         The `Evaluation` class represents body measurement data. All attributes expect `float` values, representing 
@@ -37,8 +39,15 @@ class Evaluation:
             panturilha_direita (float): Measurement of the right calf.
             panturilha_esquerda (float): Measurement of the left calf.
         """
-        
-        self._peso = weight
+        if(data is None):
+            data_atual = datetime.now()
+            # Formatando a data no formato dd/MM/yyyy
+            data_formatada = data_atual.strftime('%d/%m/%Y')
+        else:
+            data_formatada = data
+       
+        self._data = data_formatada  
+        self._weight = weight
         self._dc_bicipital = dc_bicipital
         self._dc_tricipital = dc_tricipital
         self._dc_subescapular = dc_subescapular
@@ -286,10 +295,15 @@ class Evaluation:
     def panturilha_esquerda(self, value):
         self._panturilha_esquerda = value
 
+    @property
+    def weight(self):
+        return self._weight
+
 
     def to_dict(self):
          return {
-        "peso": self._peso,
+        "data": self._data,
+        "weight": self._weight,
         "dc_bicipital": self._dc_bicipital,
         "dc_tricipital": self._dc_tricipital,
         "dc_subescapular": self._dc_subescapular,
@@ -316,7 +330,5 @@ class Evaluation:
         "coxa_dir_medial": self._coxa_dir_medial,
         "coxa_esq_medial": self._coxa_esq_medial,
         "panturilha_direita": self._panturilha_direita,
-        "panturilha_esquerda": self._panturilha_esquerda
+        "panturilha_esquerda": self._panturilha_esquerda,
     }
-
-

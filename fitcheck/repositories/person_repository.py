@@ -46,6 +46,7 @@ class PersonRepository:
         return self._persons[id]
     
 
-    def update_person(self, id, dic):
-        self._persons[id].add_evaluation(Evaluation(**dic))
-        self._json_manager.update_user_json(id, dic)
+    def update_person(self, id, evo):
+        self._persons[id].add_evaluation(evo)
+        self._json_manager.update_user_json(id, evo.to_dict())
+

@@ -40,6 +40,11 @@ class Person:
     def gender(self):
         return self._gender
     
+
+    def ult_weight(self):
+        evo = self._evaluations[-1]
+        return evo.weight
+    
         
     def add_evaluation(self, evaluation):
         self._evaluations.append(evaluation)

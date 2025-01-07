@@ -5,6 +5,7 @@
     "height": 1.66,
     "evaluations": [
         {
+            "data": "07/01/2025",
             "weight": 80,
             "dc_bicipital": 12,
             "dc_tricipital": 12.5,
