@@ -59,4 +59,10 @@ class Person:
             "evaluations": [evaluation.to_dict() for evaluation in self._evaluations],
         }
     
+    def ult_evaluation(self):
+        n = len(self._evaluations)
+        if(n > 1):
+            return n, n - 1
+        return n
+    
     

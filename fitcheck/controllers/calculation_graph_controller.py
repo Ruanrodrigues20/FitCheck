@@ -1,9 +1,6 @@
-from fitcheck.models.person import Person
 from fitcheck.repositories.person_repository import PersonRepository
-from fitcheck.utils.calculo import Calculo
 import matplotlib.pyplot as plt
 import pandas as pd 
-from matplotlib import colors
     
 
 
@@ -12,12 +9,12 @@ from matplotlib import colors
 class CalculationGraphController:
     def __init__(self, person):
         self._person = person
-        self._calculo = Calculo(person)
 
 
     def cal_densidade_corporal(self, avaliacao):
         sum_dc = self.sum_dobras_cutaneas(avaliacao)        
-        return 1.0970 - (0.0004697 * sum_dc) + 0.00000056 * (sum_dc **2) - (0.00012828 * self._person.age())
+        resultado = 1.0970 - (0.0004697 * sum_dc) + 0.00000056 * (sum_dc **2) - (0.00012828 * self._person.age())
+        return round(resultado, 4)
 
 
     def sum_dobras_cutaneas(self,avaliacao):
@@ -106,11 +103,9 @@ class CalculationGraphController:
         dic = self._person.to_dict()
         altura = dic['height'] * 100
         
-        #Calculo do perimetro corrigido
         cbc = braco_direito - dc_tricipital
         cpm = coxa_dir_medial - dc_panturillha
 
-        #Calculo do componente
         meso = 0.858 * do_umero + 0.601 * do_femur + 0.188 * cbc + 0.161 * cpm - 0.131 * altura + 4.50
         return round(meso, 4)
 
@@ -141,65 +136,6 @@ class CalculationGraphController:
         return dic['evaluations'][avaliacao - 1][dado]
     
 
-    def gerar_grafico_biotipo(self, avaliacao):
-        categorias = ['ENDOMORFO','MESOMORFO', 'ECTOMORFO']
-        valores = [self.endomorfia(avaliacao), self.mesomorfia(avaliacao), self.ecotomorfia(avaliacao)]
-        plt.bar(categorias, valores, color='blue')
-        plt.ylim(0, 8)
-        plt.title("Biotipos")
-        plt.xlabel('Categorias')
-        plt.ylabel('Valores')
-        plt.savefig('./fitcheck/temp/biotipo.png')
-
-    
-
-        
-
-
-    def _gerar_tabela(self, tipo, av1, av2):
-        if av1 is None or av1 < 1:
-            return
-
-        if tipo.lower() == "dc":
-            dados = self._verifica_tabela_dc(av1, av2)
-        elif tipo.lower() == "do":
-            dados = self._verifica_tabela_do(av1, av2)
-        elif tipo.lower() == "biotipo":
-            dados = self._verifica_tabela_biotipo(av1, av2)
-        elif tipo.lower() == "circuferencia":
-            dados = self._verifica_tabela_circuferencia(av1, av2)
-        elif tipo.lower() == "comp_corporal":
-            dados = self._verifica_tabela_comp_corporal(av1, av2)
-        else:
-            return
-        
-        # Criar dataframe para a tabela
-        df1 = pd.DataFrame(dados)
-
-        # Criar figura para salvar a imagem
-        fig, ax = plt.subplots(figsize=(12, 8))  # Aumentando o tamanho da figura para qualidade máxima
-        ax.axis('tight')
-        ax.axis('off')
-        tbl1 = ax.table(cellText=df1.values, colLabels=df1.columns, cellLoc='center', loc='center')
-
-        # Ajustar estilo da tabela
-        for key, cell in tbl1.get_celld().items():
-            # Mudar a cor de fundo das células (use cores diferentes se desejar)
-            if key[0] == 0:  # Linha de cabeçalho
-                cell.set_facecolor('#1f77b4')  # Azul para cabeçalhos
-                cell.set_text_props(color='white')  # Texto branco
-            else:
-                cell.set_facecolor('#d3d3d3')  # Cinza claro para células de dados
-                cell.set_text_props(color='black')  # Texto preto
-            cell.set_fontsize(12)
-            cell.set_height(0.08)
-            cell.set_edgecolor('black')
-
-        # Ajustar layout para garantir que nada seja cortado
-        plt.tight_layout()
-        # Salvar a imagem com qualidade máxima (600 dpi)
-        plt.savefig(f'./fitcheck/temp/table_{tipo}.png', bbox_inches='tight', pad_inches=0, dpi=500)
-
 
     def _verifica_tabela_dc(self, av1, av2):
         dados = {}
@@ -225,7 +161,7 @@ class CalculationGraphController:
         }
 
 
-        if( av2 > 0):
+        if( av2 is not None and av2 > 0):
             data2 = dic[av2 - 1]['data']
             dados[data2] = [
                         self._get_dado_avaliacao(av2, 'dc_bicipital'), 
@@ -238,7 +174,7 @@ class CalculationGraphController:
                         self._get_dado_avaliacao(av2, 'dc_coxa'), 
                         self._get_dado_avaliacao(av2, 'dc_panturillha')]
         else:   
-            dados[''] = [0,0, 0, 0, 0, 0, 0, 0,0]
+            dados[''] = ['   '] * 9
 
         return dados
     
@@ -256,14 +192,14 @@ class CalculationGraphController:
         }
 
 
-        if( av2 > 0):
+        if( av2 is not None and av2 > 0):
             data2 = dic[av2 - 1]['data']
             dados[data2] = [
                         self._get_dado_avaliacao(av2, 'do_umero'), 
                         self._get_dado_avaliacao(av2, 'do_femur'), 
                         self._get_dado_avaliacao(av2, 'do_biestiloide')]
         else:   
-            dados[''] = [0,0, 0]
+            dados[''] = ['   '] * 3
 
         return dados
     
@@ -272,7 +208,7 @@ class CalculationGraphController:
         data1 = dic[av1 - 1]['data']
 
         dados = {
-                'SOMATOTIPOLOGIA' : ["Endomorfia" , "Mesomorfiar","Ectomorfia"],
+                'SOMATOTIPOLOGIA' : ["Endomorfia" , "Mesomorfia","Ectomorfia"],
                 data1: [
                         self.endomorfia(av1), 
                         self.mesomorfia(av1), 
@@ -280,14 +216,14 @@ class CalculationGraphController:
         }
 
 
-        if( av2 > 0):
+        if( av2 is not None and av2 > 0):
             data2 = dic[av2 - 1]['data']
             dados[data2] = [
                         self.endomorfia(av2), 
                         self.mesomorfia(av2), 
                         self.ecotomorfia(av2)]
         else:   
-            dados[''] = [0,0, 0]
+            dados[''] = ['   '] * 3
 
         return dados
     
@@ -298,7 +234,6 @@ class CalculationGraphController:
         d1 = dic[av1 - 1]
         data1 = d1['data']
 
-        # Corrigido: Definindo 'CIRCUNFERÊNCIAS' como uma lista (não uma tupla)
         dados['CIRCUNFERÊNCIAS'] = [
             "Ombros (circunferência)", "Tórax", "Cintura", "Abdômen", "Quadril", 
             "Braço direito (contraído)", "Braço esquerdo (contraído)", "Antebraço direito", 
@@ -306,19 +241,18 @@ class CalculationGraphController:
             "Coxa direita medial", "Coxa esquerda medial", "Panturrilha direita", "Panturrilha esquerda"
         ]
         
-        # Extraindo os valores de d1
         l1 = [valor for chave, valor in d1.items() if not (chave.startswith('dc') or chave.startswith('do') or chave.startswith('data') or chave.startswith('weight'))]
 
         dados[data1] = l1
 
-        if av2 > 0:
+        if av2 is not None and av2 > 0:
             d2 = dic[av2 - 1]
             data2 = d2['data']
             l2 = [valor for chave, valor in d2.items() if not (chave.startswith('dc') or chave.startswith('do') or chave.startswith('data') or chave.startswith('weight'))]
             
             dados[data2] = l2
         else:
-            dados[''] = [0] * len(l1)
+            dados[''] = ['   '] * len(l1)
 
         return dados
 
@@ -329,7 +263,6 @@ class CalculationGraphController:
         d1 = dic[av1 - 1]
         data1 = d1['data']
 
-        # Corrigido: Definindo 'CIRCUNFERÊNCIAS' como uma lista (não uma tupla)
         dados['COMPOSIÇÃO CORPORAL'] =  [
                             "Percentual de gordura (%GC)",
                             "Peso ósseo (PO)",
@@ -342,7 +275,6 @@ class CalculationGraphController:
                         ]
 
         
-        # Extraindo os valores de d1
         l1 = [self.percentual_gordura(av1), self.peso_osseo(av1), self.peso_residual(av1),
               self.massa_corporal_magra(av1), self.peso_gordo(av1), self.peso_muscular(av1),
               self.cal_densidade_corporal(av1), self.sum_dobras_cutaneas(av1)    
@@ -350,7 +282,7 @@ class CalculationGraphController:
 
         dados[data1] = l1
 
-        if av2 > 0:
+        if av2 is not None and av2 > 0:
             d2 = dic[av2 - 1]
             data2 = d2['data']
             l2 = [self.percentual_gordura(av2), self.peso_osseo(av2), self.peso_residual(av2),
@@ -360,80 +292,295 @@ class CalculationGraphController:
             
             dados[data2] = l2
         else:
-            dados[''] = [0] * len(l1)
+            dados[''] = ['   '] * len(l1)
 
         return dados
 
     
 
-    def gerar_tabela_dc(self, avaliacao1, avaliacao2 = 0):
-        if(avaliacao1 == None or avaliacao1 < 1):
-            return
-        
-        self._gerar_tabela('dc', avaliacao1, avaliacao2)
+    def gerar_tabela_d_cutaneas(self, avaliacao1, avaliacao2 = None):
+        dados = self._verifica_tabela_dc(avaliacao1, avaliacao2)
 
-    def gerar_tabela_do(self, av1, av2 = 0):
+        df = pd.DataFrame(dados)
+
+        fig, ax = plt.subplots(figsize=(8, 6)) 
+        ax.axis('tight')
+        ax.axis('off')
+
+        ax.set_title('Tabela de Dobras Cutâneas', fontsize=22, fontweight='bold', pad=2)
+
+        tbl = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center')
+
+        tbl.auto_set_font_size(False)
+        tbl.set_fontsize(14) 
+        tbl.auto_set_column_width(col=list(range(len(df.columns))))  
+
+        for (row, col), cell in tbl.get_celld().items():
+            if row == 0: 
+                cell.set_facecolor('#1f77b4') 
+                cell.set_text_props(color='white', weight='bold') 
+                
+            else:
+                cell.set_facecolor('#f0f0f0') 
+            cell.set_edgecolor('black') 
+            cell.set_height(0.06)  
+
+        plt.savefig('./fitcheck/temp/table_dobras.png', bbox_inches='tight', pad_inches=0.5, dpi=400)
+
+    def gerar_tabela_d_osseo(self, av1, av2 = None):
         if(av1 == None or av1 < 1):
             return
         
-        self._gerar_tabela("do", av1, av2)
+        dados = self._verifica_tabela_do(av1, av2)
+        
+
+        df = pd.DataFrame(dados)
+
+        fig, ax = plt.subplots(figsize=(8, 6))  
+        ax.axis('tight')
+        ax.axis('off')
+
+        ax.set_title('Tabela de Diâmetro Ósseo', fontsize=22, fontweight='bold', pad=2)
+
+        tbl = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center')
+
+        tbl.auto_set_font_size(False)
+        tbl.set_fontsize(14)  
+        tbl.auto_set_column_width(col=list(range(len(df.columns)))) 
+
+        for (row, col), cell in tbl.get_celld().items():
+            if row == 0:  
+                cell.set_facecolor('#1f77b4')  
+                cell.set_text_props(color='white', weight='bold') 
+            else:
+                cell.set_facecolor('#f0f0f0')
+            cell.set_edgecolor('black')
+            cell.set_height(0.06)  
+
+        plt.savefig('./fitcheck/temp/tabela_d_osseo.png', bbox_inches='tight', pad_inches=0.5, dpi=700)
+
     
-    def gerar_tabela_biotipo(self, av1, av2 = 0):
-        if(av1 == None or av1 < 1):
+    def gerar_tabela_biotipo(self, av1, av2 = None):
+        if av1 is None or av1 < 1:
             return
-        
-        self._gerar_tabela("biotipo", av1, av2)
+        dados = self._verifica_tabela_biotipo(av1, av2)
 
-    def gerar_tabela_circuferencia(self, av1, av2 = 0):
-        if(av1 == None or av1 < 1):
+        df = pd.DataFrame(dados)
+
+        fig, ax = plt.subplots(figsize=(1, 5)) 
+        ax.axis('tight')
+        ax.axis('off')
+
+        ax.set_title('Tabela de Somatotipologia', fontsize=22, fontweight='bold', pad=2)
+
+        tbl = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center')
+
+        tbl.auto_set_font_size(False)
+        tbl.set_fontsize(14)  
+        tbl.auto_set_column_width(col=list(range(len(df.columns)))) 
+
+  
+        for (row, col), cell in tbl.get_celld().items():
+            if row == 0:  
+                cell.set_facecolor('#1f77b4')  
+                cell.set_text_props(color='white', weight='bold')  
+            else:
+                cell.set_facecolor('#f0f0f0') 
+            cell.set_edgecolor('black')  
+            cell.set_height(0.06)
+
+        fig.subplots_adjust(top=0.95)
+        plt.savefig('./fitcheck/temp/tabela_biotipo.png', bbox_inches='tight', pad_inches=0.5, dpi=500)
+
+
+    def gerar_tabela_circunferencias(self, av1, av2 = None):
+        if av1 is None or av1 < 1:
             return
-        
-        self._gerar_tabela("circuferencia", av1, av2)
+        dados = self._verifica_tabela_circuferencia(av1, av2)
+
+        df = pd.DataFrame(dados)
+
+        fig, ax = plt.subplots(figsize=(10, 8))
+        ax.axis('tight')
+        ax.axis('off')
+
+        ax.set_title('Tabela de Circunferências Corporais', fontsize=22, fontweight='bold', pad=50)
+
+        tbl = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center')
+
+   
+        tbl.auto_set_font_size(False)
+        tbl.set_fontsize(14)  
+        tbl.auto_set_column_width(col=list(range(len(df.columns)))) 
+
+        for (row, col), cell in tbl.get_celld().items():
+            if row == 0:  
+                cell.set_facecolor('#1f77b4')  
+                cell.set_text_props(color='white', weight='bold')
+            else:
+                cell.set_facecolor('#f0f0f0') 
+            cell.set_edgecolor('black') 
+            cell.set_height(0.06)  
+
+        plt.savefig('./fitcheck/temp/tabela_circunferencias.png', bbox_inches='tight', pad_inches=0.5, dpi=400)
+
     
 
     def gerar_tabela_comp_corporal(self, av1, av2=0):
-        if(av1 == None or av1 < 1):
+        if av1 is None or av1 < 1:
             return
-        
-        self._gerar_tabela("comp_corporal", av1, av2)
+        dados = self._verifica_tabela_comp_corporal(av1, av2)
 
-    
-    def gerar_grafico_pizza_pesos(self, av1):
+        # Converter os dados para um DataFrame
+        df = pd.DataFrame(dados)
+
+        fig, ax = plt.subplots(figsize=(10, 8))  
+        ax.axis('tight')
+        ax.axis('off')
+
+        ax.set_title('Tabela de Composição Corporal', fontsize=22, fontweight='bold', pad=2)
+
+        # Criar a tabela
+        tbl = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center')
+
+        # Ajustar o estilo da tabela
+        tbl.auto_set_font_size(False)
+        tbl.set_fontsize(14)  
+        tbl.auto_set_column_width(col=list(range(len(df.columns))))  
+
+        for (row, col), cell in tbl.get_celld().items():
+            if row == 0: 
+                cell.set_facecolor('#1f77b4')  
+                cell.set_text_props(color='white', weight='bold') 
+            else:
+                cell.set_facecolor('#f0f0f0')  
+            cell.set_edgecolor('black')  
+            cell.set_height(0.06) 
+
+        plt.savefig('./fitcheck/temp/tabela_composicao_corporal.png', bbox_inches='tight', pad_inches=0.5, dpi=700)
+
+        
+    def gerar_grafico_pesos(self, av1):
+        if av1 is None or av1 < 1:
+            return
         # Dados
         labels = ['Peso Gordo', 'Peso Residual', 'Peso Ósseo', 'Peso Muscular', 'Massa Corporal Magra']
         sizes = [self.peso_gordo(av1), self.peso_residual(av1), self.peso_residual(av1), self.peso_muscular(av1), self.massa_corporal_magra(av1)]
         colors = ['#66b3ff', '#3399ff', '#1a66cc', '#0059b3', '#99ccff']
+
         
-        # Criar gráfico de pizza
-        plt.figure(figsize=(8,8))  # Tamanho maior para evitar cortes
-        wedges, texts, autotexts = plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90)
+        explode = (0, 0, 0, 0.1, 0)
+        plt.figure(figsize=(8,6))
+        plt.pie(sizes, labels = labels, autopct='%.1f%%', startangle=90, explode=explode, colors=colors,textprops={'fontweight': 'bold'})
+        plt.title('Distribuição de Tipos de Peso', fontsize=16, fontweight='bold')
+
+        plt.savefig('./fitcheck/temp/grafico_pesos.png', bbox_inches='tight', pad_inches=0.1, dpi=600)  
         
-        # Ajustar fonte para rótulos e porcentagens
-        for text in texts + autotexts:
-            text.set_fontsize(14)  # Aumentar o tamanho da fonte
-            text.set_fontweight('bold')  # Deixar a fonte mais forte
 
-        plt.title('Distribuição de Tipos', fontsize=16, fontweight='bold')  # Aumentar o título
-
-        plt.axis('equal')  # Igualar os eixos para o gráfico ficar circular
-
-        # Ajustar layout para garantir que nada seja cortado
-        plt.tight_layout()
-
-        plt.savefig('./fitcheck/temp/grafico_pesos.png', bbox_inches='tight', pad_inches=0.1, dpi=600)  # Qualidade máxima
-
-      
+    def gerar_grafico_biotipo(self, avaliacao):
+        if avaliacao is None or avaliacao < 1:
+            return
+        
+        categorias = ['ENDOMORFIA','MESOMORFIA', 'ECTOMORFIA']
+        valores = [self.endomorfia(avaliacao), self.mesomorfia(avaliacao), self.ecotomorfia(avaliacao)]
+        plt.bar(categorias, valores, color='blue')
+        plt.ylim(0, 8)
+        plt.title("Biotipos",fontweight='bold')
+        plt.savefig('./fitcheck/temp/grafico_biotipo.png')
 
 
-p = PersonRepository()
-pes = p.get_person(4)
+    def gerar_tabela_informacoes_avaliado(self):
+        nome = self._person.name
+        altura = self._person.height
+        idade = self._person.age()
+        genero = self._person.gender
 
-c = CalculationGraphController(pes)
+        dados = {
+            "Informações": ["Nome", "Altura", "Idade", "Gênero"],
+            "Valores": [f"{nome}", f"{altura}m", f"{idade} anos", f"{genero}"]
+        }
 
-c.gerar_grafico_biotipo(1)
-c.gerar_grafico_pizza_pesos(1)
-c.gerar_tabela_biotipo(1,2)
-c.gerar_tabela_circuferencia(1,2)
-c.gerar_tabela_comp_corporal(1,2)
-c.gerar_tabela_dc(1,2)
-c.gerar_tabela_do(1,2)
+        # Converter os dados para um DataFrame
+        df = pd.DataFrame(dados)
+
+        # Criar a figura para exibir a tabela
+        fig, ax = plt.subplots(figsize=(6, len(df) * 1))  
+        ax.axis('tight')
+        ax.axis('off')
+
+        # Criar a tabela
+        tbl = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center')
+
+        # Ajustar o estilo da tabela
+        tbl.auto_set_font_size(False)
+        tbl.set_fontsize(12)
+        tbl.auto_set_column_width(col=list(range(len(df.columns)))) 
+
+        for (row, col), cell in tbl.get_celld().items():
+            if row == 0:  
+                cell.set_facecolor('#1976D2') 
+                cell.set_text_props(color='white', weight='bold')  
+            else: 
+                cell.set_facecolor('#f0f0f0')
+            cell.set_edgecolor('black')
+            cell.set_height(0.08) 
+
+        fig.subplots_adjust(top=0.9)
+        plt.savefig('./fitcheck/temp/tabela_informacoes_avaliado.png', bbox_inches='tight', dpi=600)
+
+    def gerar_tabela_massa(self, avaliacao1, avaliacao2=None):
+
+        if avaliacao1 is None or avaliacao1 < 1:
+            return
+
+        data1 = self._get_dado_avaliacao(avaliacao1, 'data')
+        peso1 = self._get_dado_avaliacao(avaliacao1, 'weight')
+
+        dados = [[data1, peso1], ["",""]]
+        n = 1.8
+
+        if avaliacao2 is not None and avaliacao2 > avaliacao1:
+            peso2 = self._get_dado_avaliacao(avaliacao2, 'weight')
+            data2 = self._get_dado_avaliacao(avaliacao2, 'data')
+            dados[1] = [data2, peso2]
+            n = 1.8
+
+        # Converter os dados para um DataFrame
+        df = pd.DataFrame(dados, columns=["Data", "Peso (kg)"])
+
+        # Criar a figura para exibir a tabela
+        fig, ax = plt.subplots(figsize=(6, len(df) * n)) 
+        ax.axis('tight')
+        ax.axis('off')
+
+        # Criar a tabela
+        tbl = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center')
+
+        # Ajustar o estilo da tabela
+        tbl.auto_set_font_size(False)
+        tbl.set_fontsize(12)
+        tbl.auto_set_column_width(col=list(range(len(df.columns)))) 
+
+        for (row, col), cell in tbl.get_celld().items():
+            if row == 0:  
+                cell.set_facecolor('#1976D2') 
+                cell.set_text_props(color='white', weight='bold') 
+            else: 
+                cell.set_facecolor('#f0f0f0')  
+            cell.set_edgecolor('black') 
+            cell.set_height(0.08)  
+
+        fig.subplots_adjust(top=0.9)
+        plt.savefig('./fitcheck/temp/tabela_de_massa.png', bbox_inches='tight', dpi=600)
+
+
+    def gerar_todos_graficos_tabelas(self, av1, av2 = None):
+        self.gerar_grafico_biotipo(av1)
+        self.gerar_tabela_d_osseo(av1,av2)
+        self.gerar_tabela_d_cutaneas(av1,av2)
+        self.gerar_tabela_biotipo(av1,av2)
+        self.gerar_grafico_pesos(av1)
+        self.gerar_tabela_circunferencias(av1,av2)
+        self.gerar_tabela_comp_corporal(av1,av2)
+        self.gerar_tabela_informacoes_avaliado()
+        self.gerar_tabela_massa(av1,av2)
