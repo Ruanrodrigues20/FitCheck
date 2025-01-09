@@ -77,7 +77,8 @@ class Evaluation:
         self._panturilha_esquerda = panturilha_esquerda
 
 
-
+    def __str__(self):
+        return f"{self._data}"
 
     @property
     def dc_bicipital(self):

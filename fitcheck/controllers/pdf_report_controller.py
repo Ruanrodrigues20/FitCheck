@@ -1,10 +1,9 @@
-import os
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import HexColor
 from fitcheck.utils.personal_manager import PersonalManager
-from fitcheck.controllers.person_controller import PersonController
 import env
+import os
 
 
 class PdfReporterController:
@@ -36,16 +35,17 @@ class PdfReporterController:
 
 
 
-    def addImagens(self):
+    def add_imagens(self):
+        self.cnv.drawImage(os.path.join(self.SAVE_GRAPHS_PATH,'tabela_de_imc.png'),x=self.mp(138), y=self.mp(220), width= self.mp(105), height= self.mp(90))
         self.cnv.drawImage(os.path.join(self.SAVE_GRAPHS_PATH,'tabela_informacoes_avaliado.png'), x=self.mp(-8), y=self.mp(220),  width= self.mp(95), height= self.mp(80))
-        self.cnv.drawImage(os.path.join(self.SAVE_GRAPHS_PATH,'tabela_de_massa.png'), x=self.mp(80), y=self.mp(220),  width= self.mp(90), height= self.mp(90))
+        self.cnv.drawImage(os.path.join(self.SAVE_GRAPHS_PATH,'tabela_de_massa.png'), x=self.mp(77), y=self.mp(220),  width= self.mp(90), height= self.mp(90))
         self.cnv.drawImage(os.path.join(self.SAVE_GRAPHS_PATH,'grafico_biotipo.png'), x=self.mp(-5), y=self.mp(145), width= self.mp(105), height= self.mp(100))
         self.cabecalho(f"Personal: {self._personal}")
 
 
-        self.cnv.drawImage(os.path.join(self.SAVE_GRAPHS_PATH,'tabela_biotipo.png'), x=self.mp(90), y=self.mp(149), width= self.mp(120), height= self.mp(105))
+        self.cnv.drawImage(os.path.join(self.SAVE_GRAPHS_PATH,'tabela_biotipo.png'), x=self.mp(90), y=self.mp(120), width= self.mp(120), height= self.mp(105))
         self.cnv.drawImage(os.path.join(self.SAVE_GRAPHS_PATH,'tabela_circunferencias.png'), x=self.mp(-11), y=self.mp(-0), width= self.mp(130), height= self.mp(140))
-        self.cnv.drawImage(os.path.join(self.STATIC_IMAGES_PATH,'corpo.png'), x=self.mp(110), y=self.mp(0), width= self.mp(90), height= self.mp(180))
+        self.cnv.drawImage(os.path.join(self.STATIC_IMAGES_PATH,'corpo.png'), x=self.mp(110), y=self.mp(0), width= self.mp(90), height= self.mp(150))
 
         self.cnv.showPage()
 
@@ -55,8 +55,8 @@ class PdfReporterController:
         self.cabecalho(f"Personal: {self._personal}")
 
         self.cnv.drawImage(os.path.join(self.SAVE_GRAPHS_PATH,'tabela_d_osseo.png'), x=self.mp(-15), y=self.mp(-25), width= self.mp(130), height= self.mp(120))
-        self.cnv.drawImage(os.path.join(self.STATIC_IMAGES_PATH,'desenho.png'), x=self.mp(110), y=self.mp(120), width= self.mp(100), height= self.mp(150))
-        self.cnv.drawImage(os.path.join(self.SAVE_GRAPHS_PATH,'grafico_pesos.png'), x=self.mp(110), y=self.mp(20), width= self.mp(100), height= self.mp(80))
+        self.cnv.drawImage(os.path.join(self.STATIC_IMAGES_PATH,'desenho.png'), x=self.mp(110), y=self.mp(140), width= self.mp(100), height= self.mp(130))
+        self.cnv.drawImage(os.path.join(self.SAVE_GRAPHS_PATH,'grafico_pesos.png'), x=self.mp(110), y=self.mp(20), width= self.mp(100), height= self.mp(100))
 
 
     def create_pdf(self, name):
@@ -64,10 +64,5 @@ class PdfReporterController:
         local = os.path.join(self.RESULTS_DIR, nome_pdf )
 
         self.cnv = canvas.Canvas(local, pagesize=A4)
-        self.addImagens()  
+        self.add_imagens()  
         self.cnv.save()
-
-
-p = PdfReporterController()
-p.create_pdf("Ruan_Rodrigues")
-

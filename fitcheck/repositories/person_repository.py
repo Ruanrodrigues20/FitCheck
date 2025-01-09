@@ -7,7 +7,7 @@ class PersonRepository:
     def __init__(self):
         self._json_manager = JsonManager()
         self._next_id = self._json_manager.get_total_ids()
-        self._persons = {}
+        self._people = {}
         self._load_person()
         
         
@@ -18,7 +18,7 @@ class PersonRepository:
             d =  p['evaluations']      
             for evoluation in d:
                 person.add_evaluation(Evaluation(**evoluation))
-            self._persons[p['id']] = person
+            self._people[p['id']] = person
         
 
 
@@ -26,27 +26,34 @@ class PersonRepository:
         person = person
         person_dic = person.to_dict()
         self._next_id += 1
-        self._persons[self._next_id] = person
+        self._people[self._next_id] = person
         person_dic["id"] = self._next_id
         self._json_manager.save_users_to_json(self._next_id, person_dic)
         return self._next_id
      
 
     def get_all(self):
-        return self._persons.values()
+        return self._people.copy()
 
 
     def remove_person(self, id):
-        if id in self._persons:
-            self._persons.pop(id)
+        if id in self._people:
+            self._people.pop(id)
             self._json_manager.remove_person(id)
 
     
     def get_person(self, id):
-        return self._persons[id]
+        if id not in self._people:
+            return None
+
+        return self._people[id]
     
 
     def update_person(self, id, evo):
-        self._persons[id].add_evaluation(evo)
+        self._people[id].add_evaluation(evo)
         self._json_manager.update_user_json(id, evo.to_dict())
 
+
+    def contem_person(self, person):
+        return person in self._people
+    

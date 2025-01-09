@@ -35,6 +35,7 @@ class JsonManager:
         
 
     def remove_person(self, id):
+
         if id in self._users:
             del self._users[id]
             

@@ -124,3 +124,19 @@ class Calculo:
     def _get_dado_avaliacao(self, avaliacao, dado):
         dic = self._person.to_dict()
         return dic['evaluations'][avaliacao - 1][dado]
+    
+
+    def calcular_imc(self, av1):
+        dic = self._person.to_dict()
+        altura = dic['height']
+        peso = self._get_dado_avaliacao(av1, 'weight')
+        """
+        Calcula o IMC de uma pessoa.
+        :param peso: Peso em quilogramas (kg)
+        :param altura: Altura em metros (m)
+        :return: O valor do IMC
+        """
+        if altura <= 0:
+            raise ValueError("A altura deve ser maior que zero.")
+        n = peso / (altura ** 2)
+        return round(n, 1)

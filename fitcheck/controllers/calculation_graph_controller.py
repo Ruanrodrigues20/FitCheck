@@ -473,6 +473,51 @@ class CalculationGraphController:
         plt.savefig(local, bbox_inches='tight', dpi=600)
 
 
+
+
+    def gerar_tabela_imc(self, avaliacao, avaliacao2):
+        if avaliacao is None or avaliacao < 1:
+            return
+        data = self._get_dado_avaliacao(avaliacao, 'data')
+
+        dados = [[f"{data}", self.c.calcular_imc(avaliacao)], ["",""]]
+
+        if(avaliacao2 is not None and avaliacao2 > avaliacao):
+            data2 = self._get_dado_avaliacao(avaliacao2, 'data')
+            dados[1]([f"{data2}", self.c.calcular_imc(avaliacao)])
+
+
+        # Converter os dados para um DataFrame
+        df = pd.DataFrame(dados, columns=["Data", "IMC"])
+
+        # Criar a figura para exibir a tabela
+        fig, ax = plt.subplots(figsize=(6, len(df) * 1.8)) 
+        ax.axis('tight')
+        ax.axis('off')
+
+        # Criar a tabela
+        tbl = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center')
+
+        # Ajustar o estilo da tabela
+        tbl.auto_set_font_size(False)
+        tbl.set_fontsize(12)
+        tbl.auto_set_column_width(col=list(range(len(df.columns)))) 
+
+        for (row, col), cell in tbl.get_celld().items():
+            if row == 0:  
+                cell.set_facecolor('#1976D2') 
+                cell.set_text_props(color='white', weight='bold') 
+            else: 
+                cell.set_facecolor('#f0f0f0')  
+            cell.set_edgecolor('black') 
+            cell.set_height(0.08)  
+
+        fig.subplots_adjust(top=0.9)
+        local = os.path.join(self.SAVE_GRAPHS_PATH, 'tabela_de_imc.png' )
+
+        plt.savefig(local, bbox_inches='tight', dpi=600)
+
+    
     def gerar_todos_graficos_tabelas(self, av1, av2 = None):
         self.gerar_grafico_biotipo(av1)
         self.gerar_tabela_d_osseo(av1,av2)
@@ -483,10 +528,11 @@ class CalculationGraphController:
         self.gerar_tabela_comp_corporal(av1,av2)
         self.gerar_tabela_informacoes_avaliado()
         self.gerar_tabela_massa(av1,av2)
+        self.gerar_tabela_imc(av1,av2)
 
-
-
-p  = PersonRepository()
-l = p.get_person(4)
-g = CalculationGraphController(l)
-g.gerar_todos_graficos_tabelas(1,2)
+    def apagar_temp(self):
+        directory_path = self.SAVE_GRAPHS_PATH
+        for item in os.listdir(directory_path):
+            item_path = os.path.join(directory_path, item)
+            if os.path.isfile(item_path): 
+                os.remove(item_path)  

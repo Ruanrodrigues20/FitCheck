@@ -23,6 +23,9 @@ class Person:
         self._gender = str(gender).lower()[0]
         self._evaluations = []
 
+    def __str__(self):
+        return f"{self._name}, idade: {self.age()}"
+
     @property
     def name(self):
         return self._name
@@ -64,5 +67,16 @@ class Person:
         if(n > 1):
             return n, n - 1
         return n
+    
+    def list_evaluation(self):
+        lista = []
+
+        for i in range(len(self._evaluations)):
+            lista.append(f"{i} - {self._evaluations[i].__str__()}")
+        return lista
+
+    def stylized_name(self):
+        return self.name.replace(" ", "_")
+
     
     
