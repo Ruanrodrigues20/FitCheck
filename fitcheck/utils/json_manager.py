@@ -1,5 +1,6 @@
 import os
 import json
+import env
 
 
 class JsonManager:
@@ -9,7 +10,7 @@ class JsonManager:
 
 
     def _load_users(self):
-        diretorio = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../data')
+        diretorio = env.SAVE_USER_JSON
         arquivos = os.listdir(diretorio)
         for arquivo in arquivos:
             if arquivo.endswith('.json'):
@@ -22,7 +23,7 @@ class JsonManager:
     
 
     def save_users_to_json(self, id, user):
-        diretorio = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../data')
+        diretorio = env.SAVE_USER_JSON
         id = str(id)
         id += ".json"
         caminho_arquivo_saida = os.path.join(diretorio, id)
@@ -37,7 +38,7 @@ class JsonManager:
         if id in self._users:
             del self._users[id]
             
-            diretorio = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../data')
+            diretorio = env.SAVE_USER_JSON
             caminho_arquivo = os.path.join(diretorio, f"{id}.json")
             
             if os.path.exists(caminho_arquivo):
@@ -62,17 +63,15 @@ class JsonManager:
         :param evaluation: Dicion�rio com os dados da nova avalia��o.
         """
         if id in self._users:
-            # Obt�m o usu�rio
             user_data = self._users[id]
             
-            # Verifica se 'evalutions' existe no dicion�rio e � uma lista
             if "evaluations" in user_data and isinstance(user_data["evaluations"], list):
-                user_data["evaluations"].append(evaluation)  # Adiciona a nova avalia��o
+                user_data["evaluations"].append(evaluation)  
             else:
                 user_data["evaluations"] = [evaluation]  # Cria a lista com a avalia��o
             
             # Atualiza o arquivo JSON correspondente
-            diretorio = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../data')
+            diretorio = env.SAVE_USER_JSON
             caminho_arquivo = os.path.join(diretorio, f"{id}.json")
             
             if os.path.exists(caminho_arquivo):
@@ -82,4 +81,3 @@ class JsonManager:
                 raise FileNotFoundError(f"Arquivo JSON para o ID {id} n�o encontrado.")
         else:
             raise KeyError(f"Usu�rio com ID {id} n�o encontrado.")
-
