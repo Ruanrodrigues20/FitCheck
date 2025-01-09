@@ -39,7 +39,7 @@ class PersonController:
 
 
     def get_person(self, id):
-        if(self._repository.contem_person(id)):
+        if(not self._repository.contem_person(id)):
             return None
 
         return self._repository.get_person(id)

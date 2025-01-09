@@ -1,4 +1,5 @@
 import os
+import time
 from fitcheck.repositories.person_repository import PersonRepository
 from fitcheck.utils.calculo import Calculo
 import matplotlib.pyplot as plt
@@ -484,7 +485,7 @@ class CalculationGraphController:
 
         if(avaliacao2 is not None and avaliacao2 > avaliacao):
             data2 = self._get_dado_avaliacao(avaliacao2, 'data')
-            dados[1]([f"{data2}", self.c.calcular_imc(avaliacao)])
+            dados[1]=([f"{data2}", self.c.calcular_imc(avaliacao)])
 
 
         # Converter os dados para um DataFrame
@@ -520,14 +521,23 @@ class CalculationGraphController:
     
     def gerar_todos_graficos_tabelas(self, av1, av2 = None):
         self.gerar_grafico_biotipo(av1)
+        time.sleep(1)
         self.gerar_tabela_d_osseo(av1,av2)
+        time.sleep(1)
         self.gerar_tabela_d_cutaneas(av1,av2)
+        time.sleep(1)
         self.gerar_tabela_biotipo(av1,av2)
+        time.sleep(1)
         self.gerar_grafico_pesos(av1)
+        time.sleep(1)
         self.gerar_tabela_circunferencias(av1,av2)
+        time.sleep(1)
         self.gerar_tabela_comp_corporal(av1,av2)
+        time.sleep(1)
         self.gerar_tabela_informacoes_avaliado()
+        time.sleep(1)
         self.gerar_tabela_massa(av1,av2)
+        time.sleep(1)
         self.gerar_tabela_imc(av1,av2)
 
     def apagar_temp(self):

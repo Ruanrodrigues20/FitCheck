@@ -1,4 +1,3 @@
-import threading
 from fitcheck.controllers.calculation_graph_controller import CalculationGraphController 
 from fitcheck.controllers.pdf_report_controller import PdfReporterController
 from fitcheck.controllers.person_controller import PersonController
@@ -12,10 +11,7 @@ class MainController:
         self._pdf_report = PdfReporterController()
     
     def _update_people_list(self):
-        def update():
-            self._list_people = self.personController.list_people()
-        update_thread = threading.Thread(target=update)
-        update_thread.start()
+        self._list_people = self.personController.list_people()
 
     def  is_personal(self):
         return pes.is_name_saved()
@@ -52,7 +48,9 @@ class MainController:
         self._pdf_report.create_pdf(person.stylized_name())
         cgc.apagar_temp()
     
-       
 c = MainController()
-c.create_report_pdf(1,1)
+c.create_report_pdf(1,1,2)
+'''c.create_report_pdf(3,1,2)
+c.create_report_pdf(1,1,2)'''
+
         
