@@ -48,9 +48,3 @@ class MainController:
         self._pdf_report.create_pdf(person.stylized_name())
         cgc.apagar_temp()
     
-c = MainController()
-c.create_report_pdf(1,1,2)
-'''c.create_report_pdf(3,1,2)
-c.create_report_pdf(1,1,2)'''
-
-        

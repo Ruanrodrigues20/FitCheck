@@ -12,6 +12,8 @@ matplotlib = "^3.10.0"
 pandas = "^2.2.3"
 fpdf = "^1.7.2"
 reportlab = "^4.2.5"
+cx-freeze = "^7.2.8"
+nuitka = "^2.5.9"
 
 
 [build-system]
