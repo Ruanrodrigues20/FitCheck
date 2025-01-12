@@ -127,7 +127,7 @@ pytest tests/
 
 ## Licença
 
-Este projeto está licenciado sob a [MIT License](LICENSE).
+Este projeto está licenciado sob a [MIT License](LICENSE.txt).
 
 ---
 
